@@ -45,7 +45,7 @@ const checkGuess = () => {
         numberElement.textContent = secretNumber;
         score++;
 
-        // Update highscore if the current score is lower than the existing highscore
+        // Update highscore if the score is lower than the existing highscore
         if (score < highscore || highscore === 0) {
             highscore = score;
             highscoreElement.textContent = highscore;
