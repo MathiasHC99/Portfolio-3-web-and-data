@@ -71,12 +71,10 @@ const checkGuess = () => {
 // Function to reset the game
 const resetGame = () => {
     score = 0;
-    highscore = 0;
     guessHistory = [];
     secretNumber = Math.floor(Math.random() * 20) + 1; // Reset secret number
     numberElement.textContent = '?'; // Hide the number
     scoreElement.textContent = score; // Reset score display
-    highscoreElement.textContent = highscore; // Reset highscore display
     guessInput.value = ''; // Clear input
     messageElement.textContent = 'Start guessing...'; // Reset message
     guessesElement.textContent = ''; // Clear guess history
