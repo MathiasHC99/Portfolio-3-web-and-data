@@ -1,109 +1,87 @@
 'use strict';
 
 
+const scoreElement = document.querySelector('.score');
+const highscoreElement = document.querySelector('.highscore');
+const numberElement = document.querySelector('.number');
+const guessInput = document.querySelector('.guess');
+const checkButton = document.querySelector('.check');
+const againButton = document.querySelector('.again');
+const messageElement = document.querySelector('.message');
+const guessesElement = document.querySelector('.guesses');
 
-// make an easteregg when you click around the site
+let secretNumber = Math.floor(Math.random() * 20) + 1; // Random number between 1 and 20
+let score = 0;
+let highscore = 0;
+let guessHistory = [];
 
-/*
-let secretNumber = Math.floor(Math.floor() * 20) + 1;
-let score = 0; // starting score
-let highscore = 0; // starting highscore
+// Function to display a message
+const displayMessage = (message) => {
+    messageElement.textContent = message;
+};
 
+// Function to update guess history
+const updateGuesses = () => {
+    guessesElement.textContent = guessHistory.join(', ');
+};
 
+// Function to check the users guess
+const checkGuess = () => {
+    const guess = Number(guessInput.value); // Get user input and convert to number
+    guessInput.value = ''; // Clear input
 
-const displayMessage = function (message) {
-    document.querySelector('.message').textContent = message;
+    // Validate input
+    if (!guess || guess < 1 || guess > 20) {
+        displayMessage('🚫 Please enter a number between 1 and 20!');
+        return;
+    }
+
+    // Add guess to history
+    guessHistory.push(guess);
+    updateGuesses();
+
+    // Check if the guess is correct
+    if (guess === secretNumber) {
+        displayMessage('✅ Correct Number!');
+        numberElement.textContent = secretNumber; // Show the correct number
+        score++; // Increase score for a correct guess
+        showConfetti(); // Show confetti when correct
+
+        // Check for highscore
+        if (score > highscore) {
+            highscore = score;
+            highscoreElement.textContent = highscore; // Update highscore
+        }
+
+    } else if (guess < secretNumber) {
+        // Guess is too low
+        displayMessage('📉 Too Low!');
+        score++; // Increase score for a wrong guess
+    } else {
+        // Guess is too high
+        displayMessage('📈 Too High!');
+        score++; // Increase score for a wrong guess
+    }
+
+    // Update score display
+    scoreElement.textContent = score;
 };
 
 
-document.querySelector('.check').addEventListener('click', function () {
-    const guess = number(document.querySelector('.guess').value);
+// Function to reset the game
+const resetGame = () => {
+    score = 0;
+    highscore = 0;
+    guessHistory = [];
+    secretNumber = Math.floor(Math.random() * 20) + 1; // Reset secret number
+    numberElement.textContent = '?'; // Hide the number
+    scoreElement.textContent = score; // Reset score display
+    highscoreElement.textContent = highscore; // Reset highscore display
+    guessInput.value = ''; // Clear input
+    messageElement.textContent = 'Start guessing...'; // Reset message
+    guessesElement.textContent = ''; // Clear guess history
+};
 
-    if (!guess) {
-        displayMessage('No number!');
-    } else if (guess === secretNumber) {
-        displayMessage('Correct number!');
-        document.querySelector('.number').textContent = secretNumber;
-        document.querySelector('body').style.backgroundColor = '#ffffff';
-        document.querySelector('.number').style.width = '30rem';
-
-        if (score < highscore) {
-            highscore = score;
-            document.querySelector('.highscore').textContent = highscore;
-        }
-
-        secretNumber = Math.floor(Math.floor() * 20) + 1;
-        score = 0
-        document.querySelector('.score').textContent = score;
-    } else {
-        score++;
-        document.querySelector('.score').textContent = score;
-        displayMessage(guess > secretNumber ? 'too high!' : 'too low!');
-
-        document.querySelector('.guess').value = '';
-    }});
-
-document.querySelector('.again').addEventListener('click', function () {
-    score = 0; // Reset score
-    secretNumber = Math.floor(Math.random() * 20) + 1; // Generate new random number
-
-    displayMessage('Start guessing...');
-    document.querySelector('.score').textContent = score;
-    document.querySelector('.number').textContent = '?';
-    document.querySelector('.guess').value = '';
-
-    document.querySelector('body').style.backgroundColor = '#222';
-    document.querySelector('.number').style.width = '15rem';
-});
-
-
-*/
-
-'use strict';
-
-let secretNumber = Math.trunc(Math.random() * 20) + 1; // Generate a number between 1 and 20
-let score = 0; // Starting score
-let highscore = 0; // starting highscore
-
-document.querySelector('.check').addEventListener('click', function () {
-    const guess = Number(document.querySelector('.guess').value); // Get user's guess
-    const message = document.querySelector('.message'); // Get message element
-
-    // Check if the guess is valid
-    if (!guess) {
-        message.textContent = 'No number!'; // If no number entered
-    } else if (guess === secretNumber) {
-        // If guess is correct
-        message.textContent = 'Correct Number!';
-        document.querySelector('.number').textContent = secretNumber; // Show the correct number
-
-        // Update highscore if the score is lower than current highscore
-        if (score < highscore) {
-            highscore = score;
-            document.querySelector('.highscore').textContent = highscore;
-        }
-
-        // Reset for a new game (if needed)
-        // secretNumber = Math.trunc(Math.random() * 20) + 1;
-
-    } else {
-        // If guess is wrong
-        message.textContent = guess > secretNumber ? 'Too high!' : 'Too low!';
-        score++; // Increase score by 1
-        document.querySelector('.score').textContent = score; // Update score
-    }
-
-    // Clear the input field after each check
-    document.querySelector('.guess').value = '';
-});
-
-// Reset the game when clicking "Again!"
-document.querySelector('.again').addEventListener('click', function () {
-    score = 0; // Reset the score
-    secretNumber = Math.trunc(Math.random() * 20) + 1; // Generate new secret number
-    document.querySelector('.score').textContent = score; // Reset score display
-    document.querySelector('.message').textContent = 'Start guessing...'; // Reset message
-    document.querySelector('.number').textContent = '?'; // Reset number display
-    document.querySelector('.guess').value = ''; // Clear input
-});
-
+// Event listeners
+checkButton.addEventListener('click', checkGuess);
+againButton.addEventListener('click', resetGame);
