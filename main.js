@@ -14,17 +14,17 @@ let score = 0;
 let highscore = 0;
 let guessHistory = [];
 
-// Function to display a message
+// Display message
 const displayMessage = (message) => {
     messageElement.textContent = message;
 };
 
-// Function to update guess history
+// Update guess history
 const updateGuesses = () => {
     guessesElement.textContent = guessHistory.join(', ');
 };
 
-// Function to check the users guess
+// Check the users guess
 const checkGuess = () => {
     const guess = Number(guessInput.value); // Get user input
     guessInput.value = '';
@@ -66,7 +66,7 @@ const checkGuess = () => {
 };
 
 
-// Function to reset the game
+// Reset the game
 const resetGame = () => {
     score = 0;
     guessHistory = [];
