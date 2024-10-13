@@ -24,7 +24,7 @@ const updateGuesses = () => {
     guessesElement.textContent = guessHistory.join(', ');
 };
 
-// Check the users guess
+// Check the user's guess
 const checkGuess = () => {
     const guess = Number(guessInput.value); // Get user input
     guessInput.value = '';
@@ -45,8 +45,8 @@ const checkGuess = () => {
         numberElement.textContent = secretNumber;
         score++;
 
-        // Check for highscore
-        if (score > highscore) {
+        // Update highscore if the current score is lower than the existing highscore
+        if (score < highscore || highscore === 0) {
             highscore = score;
             highscoreElement.textContent = highscore;
         }
@@ -64,6 +64,7 @@ const checkGuess = () => {
     // Update score display
     scoreElement.textContent = score;
 };
+
 
 
 // Reset the game
